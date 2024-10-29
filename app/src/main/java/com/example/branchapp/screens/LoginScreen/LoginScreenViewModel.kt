@@ -23,7 +23,7 @@ class LoginScreenViewModel @Inject constructor( private val repository: BranchAp
     var errorMessage: String? by mutableStateOf(null) // State for error message
 
     fun loginUser(username: String, password: String) {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             if (username.isEmpty() || password.isEmpty()) {
                 withContext(Dispatchers.Main) {
                     errorMessage = "Username or password is empty"

@@ -24,7 +24,7 @@ class MessageScreenViewModel @Inject constructor( private val repository: Branch
     var errorMessage: String? by mutableStateOf(null) // State for error message
 
     fun fetchAllMessages(authToken: String) {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch(Dispatchers.IO) {
             if (authToken.isNullOrEmpty()) {
                 Log.e("Messages", "AuthToken is empty")
                 return@launch

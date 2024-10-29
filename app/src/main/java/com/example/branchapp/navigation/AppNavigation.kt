@@ -37,7 +37,6 @@ fun AppNavigation(navController: NavHostController){
                 messageScreenViewModel
             )
         }
-
         composable(AppScreens.ConversationScreen.name){
             ConversationScreen(navController = navController)
         }
