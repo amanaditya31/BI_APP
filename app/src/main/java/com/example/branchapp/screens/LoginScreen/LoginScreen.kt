@@ -1,5 +1,6 @@
 package com.example.branchapp.screens.LoginScreen
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,9 +25,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import com.example.branchapp.navigation.AppScreens
 
 
+@SuppressLint("RememberReturnType")
 @Composable
 fun LoginScreen(navController: NavController,
                 viewModel: LoginScreenViewModel= hiltViewModel()) {
@@ -34,7 +37,7 @@ fun LoginScreen(navController: NavController,
     val password = remember { mutableStateOf("") }
     val isLoading = viewModel.isLoading
     val errorMessage = viewModel.errorMessage
-    val authToken = remember { derivedStateOf { viewModel.authToken } }
+    val authToken = remember {  mutableStateOf(viewModel.authToken) }
 
 
     Column(
@@ -74,20 +77,19 @@ fun LoginScreen(navController: NavController,
 //                        navController.navigate(AppScreens.MessagesScreen.name + "/${authToken}") }
 //                }
 
-                LaunchedEffect(authToken) {
-                    authToken?.let {
-                        navController.navigate(AppScreens.MessagesScreen.name + "/${authToken}")
-                    }
-                }
-                if (viewModel.authToken != null) {
 
-                }
             },
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text(text = "Login")
         }
-
+        if (viewModel.authToken != null) {
+            LaunchedEffect(authToken) {
+                authToken.let {
+                    navController.navigate(AppScreens.MessagesScreen.name + "/${viewModel.authToken}")
+                }
+            }
+        }
 ////        Display error message if any
         errorMessage?.let {
             ShowToast(message = errorMessage)
