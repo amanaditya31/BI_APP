@@ -20,7 +20,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.branchapp.model.Message.Message
@@ -92,9 +94,9 @@ fun MessageThreadItem(message: Message, onClick: () -> Unit) {
             .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
             .padding(8.dp)
     ) {
-        Text(text = "Sender ID: ${message.user_id}")
-        Text(text = "Thread ID: ${message.thread_id}")
-        Text(text = "Message: ${message.body}")
-        Text(text = "Timestamp: ${message.timestamp}")
+        Text(text = "Sender ID: ${message.user_id}", fontWeight = FontWeight.Bold, fontSize = 20.sp )
+        Text(text = "Thread ID: ${message.thread_id}", fontSize = 16.sp)
+        Text(text = "${message.body}",fontWeight = FontWeight.Thin , fontSize = 16.sp)
+//        Text(text = "Timestamp: ${message.timestamp}")
     }
 }
