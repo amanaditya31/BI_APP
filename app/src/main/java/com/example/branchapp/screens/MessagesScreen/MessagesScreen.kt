@@ -19,12 +19,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.branchapp.model.Message.Message
+import com.example.branchapp.navigation.AppScreens
+import com.google.gson.Gson
 
 @Composable
 fun MessagesScreen(navController: NavController, authTokenArg: String,
@@ -69,7 +70,10 @@ fun MessagesScreen(navController: NavController, authTokenArg: String,
         } else {
             LazyColumn {
                 items(messageList) {
-                    MessageThreadItem(message= it) { }
+                    MessageThreadItem(message= it) {
+                        val message=Gson().toJson(it)
+                        navController.navigate(AppScreens.ConversationScreen.name + "/${authTokenArg}"+"/${message}")
+                    }
                 }
             }
         }
@@ -88,7 +92,8 @@ fun MessageThreadItem(message: Message, onClick: () -> Unit) {
             .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
             .padding(8.dp)
     ) {
-        Text(text = "Sender ID: ${message.agent_id ?: message.user_id}")
+        Text(text = "Sender ID: ${message.user_id}")
+        Text(text = "Thread ID: ${message.thread_id}")
         Text(text = "Message: ${message.body}")
         Text(text = "Timestamp: ${message.timestamp}")
     }
