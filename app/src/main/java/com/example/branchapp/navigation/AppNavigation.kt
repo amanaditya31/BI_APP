@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.branchapp.screens.ConversationScreen.ConversationScreen
+import com.example.branchapp.screens.ConversationScreen.ConversationScreenViewModel
 import com.example.branchapp.screens.LoginScreen.LoginScreen
 import com.example.branchapp.screens.LoginScreen.LoginScreenViewModel
 import com.example.branchapp.screens.MessagesScreen.MessageScreenViewModel
@@ -37,8 +38,18 @@ fun AppNavigation(navController: NavHostController){
                 messageScreenViewModel
             )
         }
-        composable(AppScreens.ConversationScreen.name){
-            ConversationScreen(navController = navController)
+
+        val conversationScreen=AppScreens.ConversationScreen.name
+        composable("$conversationScreen/{authToken}/{message}", arguments=listOf(
+            navArgument("authToken"){type= NavType.StringType },
+            navArgument("message"){type= NavType.StringType },
+        )){ backStackEntry->
+            val authToken= backStackEntry.arguments?.getString("authToken") ?: ""
+            val message= backStackEntry.arguments?.getString("message") ?: ""
+
+            val conversationScreenViewModel=hiltViewModel<ConversationScreenViewModel>()
+            ConversationScreen(navController = navController, conversationScreenViewModel, authTokenArg = authToken, message = message)
+
         }
 
     }
