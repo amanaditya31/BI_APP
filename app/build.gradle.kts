@@ -106,6 +106,8 @@ dependencies {
     implementation (libs.converter.gson)
 
 
+    implementation ("org.apache.commons:commons-text:1.9")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
